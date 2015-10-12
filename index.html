@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+
+        <title>CI for PHP Projects</title>
+
+        <meta name="description" content="CI for PHP Projects">
+        <meta name="author" content="Lyubomir Popov">
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+        <link rel="stylesheet" href="css/reveal.css">
+        <link rel="stylesheet" href="css/theme/night.css" id="theme">
+
+        <!-- Code syntax highlighting -->
+        <link rel="stylesheet" href="lib/css/zenburn.css">
+
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+            document.getElementsByTagName('head')[0].appendChild(link);
+        </script>
+
+        <!--[if lt IE 9]>
+        <script src="lib/js/html5shiv.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+
+        <div class="reveal">
+
+            <!-- Any section element inside of this container is displayed as a slide -->
+            <div class="slides">
+                <section>
+                    <h2>Continuous Integration</h2>
+                    <h3>for PHP Projects</h3>
+                    <p>
+                        <small><a href="https://github.com/lpopov">Lyubomir Popov</a> / <a href="http://twitter.com/lpopov">@lpopov</a></small>
+                    </p>
+                </section>
+                
+                <section>
+                    <section>
+                        <h2>What is CI?</h2>
+                        <aside class="notes">
+                            Software development practice where devs integrate changes frequently, so errors(missing files, syntactic, unit tests) are detected quickly and permit the daily creation of a working version of your product<br />
+                        </aside>
+                    </section>
+
+                    <section>
+                        <h2>CI Flow</h2>
+                        <p>
+                            <img src="img/ci-flow.png" alt="CI Flow Diagram" />
+                        </p>
+                        <aside class="notes">
+                            VCS - Git / Mercurial, etc.<br />
+                            ----------<br />
+                            CI Server - Jenkins / Team City / BuildBot / Travis CI<br />
+                            ----------<br />
+                            Deployment - automatic or after approval<br />
+                        </aside>
+                    </section>
+                    
+                    <section>
+                        <h2>Best Practices</h2>
+                        <ul>
+                            <li>Maintain a code repository</li>
+                            <li>Automate the build</li>
+                            <li>Make the build self-testing</li>
+                            <li>Everyone commits to the baseline every day</li>
+                            <li>Every commit (to baseline) should be build</li>
+                            <li>Fix broken builds immediately</li>
+                            <li>Keep the build fast</li>
+                            <li>Test in a clone of the production environment</li>
+                            <li>Make it easy for anyone to get the latest deliverables</li>
+                            <li>Everyone can see the results of the latest build</li>
+                            <li>Automate deployment</li>
+                        </ul>
+                    </section>
+                </section>
+                
+                <section>
+                    <section>
+                        <h2>Static analytics</h2>
+                    </section>
+
+                    <section>
+                        <h2>Syntactic checks</h2>
+                        <ul>
+                            <li>php -l</li>
+                            <li>jslint</li>
+                            <li>csslint</li>
+                        </ul>
+                    </section>
+                    
+                    <section>
+                        <h2>PHPLOC</h2>
+                        <p>A tool for quickly measuring the size of a PHP project</p>
+                        <ul>
+                            <li>Number of files and directories</li>
+                            <li>Size (lines of code - comments/non comments)</li>
+                            <li>Complexity</li>
+                            <li>Dependencies (global access, attribute access, method calls)</li>
+                            <li>Structure (namespaces, interfaces, traits, classes, methods, functions constants)</li>
+                        </ul>
+                    </section>
+                    
+                    <section>
+                        <h2>PHP_Depend</h2>
+                        <p>Generates a large set of software metrics, that can be used to measure the quality of a software project. They help to identify the parts of an application where a code refactoring should be applied.</p>
+                        <table>
+                            <tr>
+                                <td>
+                                    <img src="img/jdepend.png" alt="jdepend" />
+                                </td>
+                                <td>
+                                    <img src="img/pyramid.png" alt="pyramid" />
+                                </td>
+                            </tr>
+                        </table>
+                        
+                        <aside class="notes">
+                            Package chart / Metrics overview
+                            Instability: The ratio between (# packages that classes from this package depend upon) and total package coupling. [0,1]->[stable,instable]<br />
+                            Abstractness: The ratio between abstract and all classes. Results between [0,1]->[non-abstract,abstract]<br />
+                            NOP - The Number Of Packages<br />
+                            NOC - The Number Of Classes<br />
+                            NOM - The Number Of Methods<br />
+                            CYCLO - Cyclomatic Complexity<br />
+                            LOC - The Lines Of Code<br />
+                            ANDC - The Average Number of Derived Classes<br />
+                            AHH - The Average Hierarchy Height
+                            CALLS - This metric count the number of distinct function- and method-calls<br />
+                            FANOUT - provides information on types referenced by classes and interfaces
+                        </aside>
+                    </section>
+                    
+                    <section>
+                        <h2>PHP Mess Detector</h2>
+                        <p>Scans PHP source code (based on given rules) and looks for potential problems such as:</p>
+                        <ul>    
+                            <li>Possible bugs</li>
+                            <li>Suboptimal code</li>
+                            <li>Overcomplicated expressions</li>
+                            <li>Unused parameters, methods, properties</li>
+                        </ul>
+                    </section>
+                    
+                    <section>
+                        <h2>PHP_CodeSniffer</h2>
+                        <p>Detects violations of a defined set of coding standards.</p>
+                        <aside class="notes">
+                            PSR1/PSR2, method declaration, method arguments, spaces, etc.
+                        </aside>
+                    </section>
+                    
+                    <section>
+                        <h2>PHP Copy/Paste Detector</h2>
+                        <p>Scans a PHP project for duplicated code.</p>
+                        <aside class="notes">
+                            PSR1/PSR2, method declaration, method arguments, spaces, etc.
+                        </aside>
+                    </section>
+                </section>
+                
+                <section>
+                    <h2>Unit tests</h2>
+
+                    <blockquote cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
+                        <div style="text-align: left;">
+                            &ldquo;Only two kinds of code deserve TDD:<br />
+                            * Code that you plan to keep<br />
+                            * Code that needs to work.&rdquo;<br />
+                        </div>
+                                  -- Tim Ottinger
+                    </blockquote>
+                    <aside class="notes">
+                        phpunit/phpunit or hmlb/phpunit-vw :)
+                    </aside>
+                </section>
+                
+                <section>
+                    <h2>Generate documentation</h2>
+                    <p>phpDox is a documentation generator for PHP projects. Uses DocBlock annotations. Generates HTML.</p>
+                    <aside class="notes">
+                        Could be enriched with the data from the static analytics tools.
+                    </aside>
+                </section>
+                
+                <section>
+                    <h2>What is Jenkins</h2>
+                    <ul>    
+                        <li>Continuous Integration Software written in Java</li>
+                        <li>Gives us a way to test code / functionality changes as they are pushed to VCS</li>
+                        <li>Reporting - successful / failed builds based on static analytics tools and unit tests</li>
+                        <li>Helps with managing deployments (no need to have production/qa server credentials to deploy a build)</li>
+                        <li>Has lots of plugins to connect it to VCS, Selenium, Ant/Phing, notifications...</li>
+                        <li>Can build a master/slave configuration, so you can test on different php versions/web servers/operating systems, etc.</li>
+                    </ul>
+                </section>
+                
+                <section>
+                    <h2>Jenkins PHP Project Setup</h2>
+                    <p>http://jenkins-php.org/</p>
+                    <ul>    
+                        <li>Install the required Jenkins plugins and PHP tools</li>
+                        <li>Orchestrate the PHP tools using Apache Ant</li>
+                        <li>Configure the PHP tools for use with Jenkins job template</li>
+                        <li>Create a Jenkins job for your PHP project</li>
+                    </ul>
+                </section>
+                
+                <section>
+                    <h2>Demo time</h2>
+                </section>
+                
+                <section>
+                    <h2>Links</h2>
+                    <ul>    
+                        <li><a href="http://phpqatools.org/">The PHP Quality Assurance Toolchain, Sebastian Bergmann</a></li>
+                        <li><a href="http://jenkins-php.org/">Template for Jenkins Jobs for PHP Projects, Sebastian Bergmann</a></li>
+                        <li><a href="http://martinfowler.com/articles/continuousIntegration.html">Continuous Integration, Martin Fowler</a></li>
+                        <li><a href="https://marcelog.github.io/articles/ci_jenkins_hudson_continuous_integration_php_phing.html">PHP Continuous integration with Jenkins and Phing,  Marcelo Gornstein</a></li>
+                        <li><a href="https://www.phptesting.org/">PHPCI - Continuous Integration for PHP Projects</a></li>
+                    </ul>
+                </section>
+                
+                <section>
+                    <h2>Questions?</h2>
+                </section>
+
+                <section>
+                    <h1>Thank you</h1>
+                </section>
+            </div>
+
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.js"></script>
+
+        <script>
+
+                                            // Full list of configuration options available at:
+                                            // https://github.com/hakimel/reveal.js#configuration
+                                            Reveal.initialize({
+                                                controls: true,
+                                                progress: true,
+                                                history: true,
+                                                center: true,
+                                                transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+                                                // Optional reveal.js plugins
+                                                dependencies: [
+                                                    {src: 'lib/js/classList.js', condition: function () {
+                                                            return !document.body.classList;
+                                                        }},
+                                                    {src: 'plugin/markdown/marked.js', condition: function () {
+                                                            return !!document.querySelector('[data-markdown]');
+                                                        }},
+                                                    {src: 'plugin/markdown/markdown.js', condition: function () {
+                                                            return !!document.querySelector('[data-markdown]');
+                                                        }},
+                                                    {src: 'plugin/highlight/highlight.js', async: true, condition: function () {
+                                                            return !!document.querySelector('pre code');
+                                                        }, callback: function () {
+                                                            hljs.initHighlightingOnLoad();
+                                                        }},
+                                                    {src: 'plugin/zoom-js/zoom.js', async: true},
+                                                    {src: 'plugin/notes/notes.js', async: true}
+                                                ]
+                                            });
+
+        </script>
+
+    </body>
+</html>
